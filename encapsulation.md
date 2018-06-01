@@ -1,0 +1,17 @@
+# Encapsulation
+
+A problem we face as programmers is managing complexity. A large application has many concerns and must do many things. If we're not careful, our code becomes very interdependent: a subtle change in one place can ripple out and break code that is far away in the source file. A way of fighting back is to attempt to _encapsulate_ our code. Object-oriented languages allow us to do this by creating objects with interfaces. All code relating a particular type of data can be bundled up into an object, and that object can define a public interface (typically via a class) through which the rest of the code base can interact with it. Anything data or behavior that we don't expose through our interface is safe from the rest of the codebase.
+
+Now our code is the interaction of many sealed off objects, instead of one big global namespace.
+
+It is worth noting that merely defining classes and using objects doesn't guarantee that you will achieve good encapsulation in your code. If, for example, all object state is exposed via public getter and setter methods, and code outside of a class is frequently updating the state of objects of that class using logic external to that class, then there is very little encapsulation, and the program can become just as complex and fragile as its procedural counterpart. So object-oriented programming is as much a technique and approach as it is a specific type of language syntax.
+
+## Attempt 2
+
+The concept of encapsulation is about (a) bundling a certain type of data and the commond operations on that data, and (b) hiding the details of that bundle behind some sort of interface. This way, code is organized into logical bundles, and the interaction between bundles is tightly controlled by single entry points (their interfaces).
+
+Object oriented programming allows us to achieve encapsulation by creating _objects_, which can have _state_ and can be told to perform various methods. In Ruby, an object's state is only accessible to the rest of the code via the object's public methods (typically defined in a class). Any methods that are implementation details of the object can be made private. When done well, this guarantees that we have the freedom to change class implementation details without breaking the rest of the code (so long as we preserve the public interface), and it guarantees that won't find our objects' state unexpectedly changed by outside code.
+
+Since code interaction is now limited to well-defined interfaces, we also gain the ability to replace one object with another, so long as it has the same interface, without breaking our code. This is known as polymorphism. Polymorphism makes our code very modular and flexible, but requires good encapsulation to do well.
+
+Of course, it is possible to use OOP tools to create poorly encapsulated programs. You might create a class of objects that have, say, an array as part of their state. You could then provide a getter method for that array. If you then start writing code outside of the class that gets that array, and performs a bunch of array specific logic (accessing indices, checking for length, etc), you have very poor encapsulation. If, for example, you later decide that a Struct or a hash, or perhaps a custom iterator would have been more appropriate, you'll have to upate the code outside the class after changing implementations. Or, at the very least, you'll have to give the new implementation the same public interface as the Array class.
