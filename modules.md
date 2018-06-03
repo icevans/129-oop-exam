@@ -42,3 +42,24 @@ my_cell = TabularData::Cell.new
 ```
 
 So this is kind of cool because in the client code, it's clear that the `Row` class and `Cell` class are related... they are both part of a library designed for handling tabular data. Additionally, we can now rest easy that if we include some other library that might define a row class (say, a `CSV` module), that our class names won't conflict.
+
+## Grouping Methods
+
+Just as we can _group_ and _namespace_ our classes inside a module, we cand do something similar for methods. Sometimes, we need a general purpose method that is not part of any particular class. Rather than having these floating in the global namespace, we can put them inside a module for better organization and to avoid global namespace pollution. So, for example:
+
+```ruby
+module TabularData
+  def self.some_method
+    # ...
+  end
+  
+  def self.another_method
+    #...
+  end
+end
+
+TabularData.some_method # calls some_method
+TabularData.another_method # calls another_method
+```
+
+(We can also call module methods using the `::` syntax, but the `.` syntax is preferred.)
